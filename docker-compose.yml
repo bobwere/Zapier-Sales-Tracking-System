@@ -1,0 +1,26 @@
+services:
+  zapier-service:
+    build:
+      context: .
+      target: development
+    command: npm run start:dev
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env
+    depends_on:
+      - mongodb
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+
+  mongodb:
+    image: mongo:6-jammy
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongodb_master_data:/data/db
+
+volumes:
+  mongodb_master_data:
+    driver: local
